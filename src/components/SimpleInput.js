@@ -1,24 +1,20 @@
-import { useState } from 'react';
+import useInput from '../hooks/use-input';
 
 const SimpleInput = (props) => {
-  const [enteredName, setEnteredName] = useState('')
-  const [enteredNameTouched, setEnteredNameTouched] = useState(false)
+  const {
+    value: enteredName,
+    isValid: enteredNameIsValid,
+    hasError: nameHasError,
+    valueChangeHandler: nameInputChangeHandler,
+    valueBlurHandler: nameInputBlurHandler,
+    reset: nameReset
+  } = useInput(value => value.trim() !== '')
 
-  const enteredNameIsValid = enteredName.trim() !== ''
-  const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched
 
   let formIsValid = false
 
   if (enteredNameIsValid)  {
     formIsValid = true
-  }
-
-  const nameInputChangeHandler = event => {
-    setEnteredName(event.target.value)
-  }
-
-  const nameInputBlurHandler = event => {
-    setEnteredNameTouched(true)
   }
 
   const submitHandler = event => {
@@ -29,11 +25,10 @@ const SimpleInput = (props) => {
     }
 
     console.log(enteredName)
-    setEnteredName('')
-    setEnteredNameTouched(false)
+    nameReset()
   }
 
-  const nameInputClasses = !nameInputIsInvalid ? 'form-control' : 'form-control invalid'
+  const nameInputClasses = nameHasError ? 'form-control invalid' : 'form-control'
 
   return (
     <form onSubmit={submitHandler}>
@@ -47,7 +42,7 @@ const SimpleInput = (props) => {
           onChange={nameInputChangeHandler}
           onBlur={nameInputBlurHandler} />
       </div>
-      {nameInputIsInvalid && <p className='error-text'>Name must not be empty.</p>}
+      {nameHasError && <p className='error-text'>Name must not be empty.</p>}
 
       {/* <div className={}>
         <label htmlFor='email'>Email</label>
