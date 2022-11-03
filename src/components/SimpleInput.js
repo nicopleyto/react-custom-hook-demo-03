@@ -15,7 +15,6 @@ const SimpleInput = (props) => {
 
   const nameInputChangeHandler = event => {
     setEnteredName(event.target.value)
-
   }
 
   const nameInputBlurHandler = event => {
@@ -24,7 +23,6 @@ const SimpleInput = (props) => {
 
   const submitHandler = event => {
     event.preventDefault()
-    setEnteredNameTouched(true)
 
     if (!enteredNameIsValid) {
       return
@@ -39,6 +37,7 @@ const SimpleInput = (props) => {
 
   return (
     <form onSubmit={submitHandler}>
+
       <div className={nameInputClasses}>
         <label htmlFor='name'>Your Name</label>
         <input
@@ -49,9 +48,22 @@ const SimpleInput = (props) => {
           onBlur={nameInputBlurHandler} />
       </div>
       {nameInputIsInvalid && <p className='error-text'>Name must not be empty.</p>}
+
+      {/* <div className={}>
+        <label htmlFor='email'>Email</label>
+        <input
+          value={enteredName}
+          type='email'
+          id='email'
+          onChange={}
+          onBlur={} />
+      </div>
+      { && <p className='error-text'>Please enter a valid email.</p>} */}
+
       <div className="form-actions">
         <button disabled={!formIsValid}>Submit</button>
       </div>
+
     </form>
   );
 };
